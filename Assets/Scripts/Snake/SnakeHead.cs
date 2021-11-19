@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SnakeHead : GridObject, IMoveable, IRotatable
 {
@@ -56,7 +57,10 @@ public class SnakeHead : GridObject, IMoveable, IRotatable
         if (_direction != Vector2Int.zero)
         {
             Vector2Int moveToPos = Position + _direction;
-            Move(moveToPos);
+            if (Move(moveToPos) == false)
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
             Direction = _direction;
         }
     }
@@ -129,8 +133,11 @@ public class SnakeHead : GridObject, IMoveable, IRotatable
         //MoveSnake(input.inputVector);
         if (input.inputVector != Vector2Int.zero)
         {
-
-            Direction = input.inputVector;
+            if (input.inputVector != Direction * -1)
+            {
+                Direction = input.inputVector;
+            }
+            
         }
         
     }
